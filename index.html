@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自転車技士・安全整備士 対策クイズ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>自転車技士・安全整備士 対策クイズ</h1>
+        
+        <div id="quiz-container" class="quiz-container">
+            <p id="question-number"></p>
+            <p id="question-text"></p>
+            <div id="options-container" class="options-container">
+                <!-- 選択肢ボタンはここに動的に生成されます -->
+            </div>
+            <div id="feedback-area" class="feedback-area"></div>
+            <button id="next-btn" class="next-btn">次の問題へ</button>
+        </div>
+
+        <div id="result-container" class="result-container" style="display: none;">
+            <h2>クイズ終了！</h2>
+            <p id="score-text"></p>
+            <p id="result-message"></p>
+            <button onclick="location.reload()">もう一度挑戦する</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
