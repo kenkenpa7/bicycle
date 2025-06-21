@@ -10,7 +10,15 @@
     <div class="container">
         <h1>自転車技士・安全整備士 対策クイズ</h1>
         
-        <div id="quiz-container" class="quiz-container">
+        <!-- スタート画面 (レベル選択) -->
+        <div id="start-container" class="start-container">
+            <h2>レベルを選択してください</h2>
+            <button id="beginner-btn" class="level-btn">初級編<br><small>（基礎から学ぶ用語解説付き）</small></button>
+            <button id="intermediate-btn" class="level-btn">中級編<br><small>（試験対策向け実践問題）</small></button>
+        </div>
+
+        <!-- クイズ画面 (最初は非表示) -->
+        <div id="quiz-container" class="quiz-container" style="display: none;">
             <p id="question-number"></p>
             <p id="question-text"></p>
             <div id="options-container" class="options-container">
@@ -20,11 +28,12 @@
             <button id="next-btn" class="next-btn">次の問題へ</button>
         </div>
 
+        <!-- 結果画面 (最初は非表示) -->
         <div id="result-container" class="result-container" style="display: none;">
             <h2>クイズ終了！</h2>
             <p id="score-text"></p>
             <p id="result-message"></p>
-            <button onclick="location.reload()">もう一度挑戦する</button>
+            <button id="restart-btn">レベル選択に戻る</button>
         </div>
     </div>
 
