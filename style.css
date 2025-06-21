@@ -420,22 +420,77 @@ blockquote p {
 }
 
 /* 参考書ページのテーブル */
-.ref-card table {
-    width: 100%;
-    border-collapse: collapse;
+
+/* スマホ対応テーブルのスタイル */
+.responsive-table {
     margin: 25px 0;
-    font-size: 15px;
-}
-.ref-card th, .ref-card td {
     border: 1px solid var(--border-color);
-    padding: 12px;
+    border-radius: 8px;
+    overflow: hidden; /* 角丸を効かせるため */
+}
+
+.table-row {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+}
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-cell {
+    padding: 12px 15px;
+    flex-basis: 25%; /* PCでは各セルが25%の幅を持つ */
+    flex-grow: 1;
     text-align: left;
 }
-.ref-card th {
+.table-row.header {
     background-color: var(--light-gray);
     font-family: var(--font-heading);
     font-weight: 700;
 }
-.ref-card tr:nth-child(even) {
-    background-color: #fdfdfd;
+
+/* --- ここからがスマホ対応の核（メディアクエリ） --- */
+@media screen and (max-width: 768px) {
+    .responsive-table .table-row.header {
+        display: none; /* スマホではPC用のヘッダー行を隠す */
+    }
+    .responsive-table .table-row {
+        flex-direction: column; /* 行を縦積みにする */
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+    .responsive-table .table-cell {
+        display: flex;
+        justify-content: space-between; /* ラベルと内容を両端に配置 */
+        align-items: center;
+        padding: 10px 15px;
+        border-bottom: 1px dashed var(--border-color);
+        flex-basis: auto; /* 幅を自動に */
+    }
+    .table-cell:last-child {
+        border-bottom: none;
+    }
+    .responsive-table .table-cell::before {
+        content: attr(data-label); /* data-label属性の内容を見出しとして表示 */
+        font-weight: 700;
+        margin-right: 10px;
+        color: var(--primary-color);
+    }
+
+    /* 参考書本文の調整 */
+    .card.ref-card {
+        padding: 20px;
+    }
+    .ref-card p, .ref-card li {
+        font-size: 15px;
+        line-height: 1.9;
+    }
+    .ref-card h2 {
+        font-size: 22px;
+    }
+     .ref-card h3 {
+        font-size: 18px;
+    }
 }
