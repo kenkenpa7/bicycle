@@ -18,8 +18,7 @@ const progressBar = document.getElementById('progress-bar');
 const correctSound = new Audio('correct.mp3');
 const incorrectSound = new Audio('incorrect.mp3');
 
-// --- クイズデータ ---
-
+// --- クイズデータ (ここでは省略) ---
 // 初級編データ
 // script.js の中の quizDataBeginner を以下に置き換える
 
@@ -91,26 +90,29 @@ const quizDataIntermediate = [
     { question: "自転車技士の実技試験で、7分組自転車を組み立てる際に、特に時間配分と精度が問われる作業は何か。", options: ["ペダルの取り付け", "サドルの高さ調整", "ホイールの振れ取り", "チェーンへの注油"], answer: 2, explanation: "正解は「ホイールの振れ取り」。精度と手際の良さの両方が求められる、試験の関門の一つです。", refId: 'ref-maintenance-7bun' }
 ];
 
-// ... (残りのJavaScriptロジックは変更不要です) ...
 
 
 // --- グローバル変数 ---
-let currentQuizData = []; // 現在のレベルのクイズデータを保持
+let currentQuizData = [];
 let currentQuestionIndex = 0;
 let score = 0;
+let currentLevel = ''; // 'beginner' or 'intermediate'
 
 
 // --- イベントリスナー ---
 beginnerBtn.addEventListener('click', () => {
-    startQuiz(quizDataBeginner);
+    startQuiz('beginner');
 });
 
 intermediateBtn.addEventListener('click', () => {
-    startQuiz(quizDataIntermediate);
+    startQuiz('intermediate');
 });
 
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex++;
+    // ★★★ セッションストレージを更新 ★★★
+    sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
+    
     if (currentQuestionIndex < currentQuizData.length) {
         loadQuiz();
     } else {
@@ -119,6 +121,9 @@ nextBtn.addEventListener('click', () => {
 });
 
 restartBtn.addEventListener('click', () => {
+    // ★★★ セッションストレージをクリア ★★★
+    sessionStorage.removeItem('quizProgress');
+    
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'none';
     startContainer.style.display = 'block';
@@ -127,25 +132,42 @@ restartBtn.addEventListener('click', () => {
 
 // --- 関数群 ---
 
-function startQuiz(quizLevelData) {
-    currentQuizData = quizLevelData;
+/**
+ * クイズを開始する関数
+ * @param {string} level - 'beginner' or 'intermediate'
+ */
+function startQuiz(level) {
+    currentLevel = level;
+    currentQuizData = (level === 'beginner') ? quizDataBeginner : quizDataIntermediate;
     currentQuestionIndex = 0;
     score = 0;
+    
+    // ★★★ セッションストレージに保存 ★★★
+    sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
+
     startContainer.style.display = 'none';
-    resultContainer.style.display = 'none'; // 結果画面も非表示に
+    resultContainer.style.display = 'none';
     quizContainer.style.display = 'block';
+
     loadQuiz();
 }
 
+/**
+ * 現在の問題を画面に表示する関数
+ */
 function loadQuiz() {
     feedbackAreaEl.style.display = 'none';
     nextBtn.style.display = 'none';
+
     const quiz = currentQuizData[currentQuestionIndex];
+    
     questionNumberEl.innerText = `問題 ${currentQuestionIndex + 1} / ${currentQuizData.length}`;
     questionTextEl.innerText = quiz.question;
     optionsContainerEl.innerHTML = '';
+    
     const progressPercent = ((currentQuestionIndex) / currentQuizData.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
+
     quiz.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.innerHTML = option;
@@ -154,44 +176,57 @@ function loadQuiz() {
     });
 }
 
+/**
+ * 選択肢が選ばれたときの処理
+ * @param {number} selectedIndex - 選ばれた選択肢のインデックス
+ */
 function selectOption(selectedIndex) {
     const quiz = currentQuizData[currentQuestionIndex];
     const correctIndex = quiz.answer;
     const allOptions = Array.from(optionsContainerEl.children);
+
     allOptions.forEach(button => {
         button.disabled = true;
     });
+
     const progressPercent = ((currentQuestionIndex + 1) / currentQuizData.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
+
     if (selectedIndex === correctIndex) {
         score++;
         correctSound.play();
         allOptions[selectedIndex].classList.add('correct');
-        let feedbackHTML = `<strong>正解！</strong><br>${quiz.explanation}`;
-        if (quiz.refId) {
-            feedbackHTML += `<a href="reference.html?from=quiz#${quiz.refId}" class="detail-link-btn">参考書で詳しく見る</a>`;
-        }
-        feedbackAreaEl.innerHTML = feedbackHTML;
-        feedbackAreaEl.className = 'feedback-area correct';
+        // ★★★ スコアをセッションストレージに反映 ★★★
+        sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
     } else {
         incorrectSound.play();
         allOptions[selectedIndex].classList.add('incorrect');
         allOptions[correctIndex].classList.add('correct');
-        let feedbackHTML = `<strong>不正解...</strong><br>${quiz.explanation}`;
-        if (quiz.refId) {
-            feedbackHTML += `<a href="reference.html?from=quiz#${quiz.refId}" class="detail-link-btn">参考書で詳しく見る</a>`;
-        }
-        feedbackAreaEl.innerHTML = feedbackHTML;
-        feedbackAreaEl.className = 'feedback-area incorrect';
     }
+    
+    let feedbackHTML = (selectedIndex === correctIndex) ? `<strong>正解！</strong><br>${quiz.explanation}` : `<strong>不正解...</strong><br>${quiz.explanation}`;
+    if (quiz.refId) {
+        // ★★★ リンク先に現在の問題番号を渡す ★★★
+        feedbackHTML += `<a href="reference.html?from=quiz&index=${currentQuestionIndex}#${quiz.refId}" class="detail-link-btn">参考書で詳しく見る</a>`;
+    }
+    feedbackAreaEl.innerHTML = feedbackHTML;
+    feedbackAreaEl.className = (selectedIndex === correctIndex) ? 'feedback-area correct' : 'feedback-area incorrect';
+
     feedbackAreaEl.style.display = 'block';
     nextBtn.style.display = 'block';
 }
 
+/**
+ * 結果を表示する関数
+ */
 function showResult() {
+    // ★★★ 終了したらセッションストレージをクリア ★★★
+    sessionStorage.removeItem('quizProgress');
+
     quizContainer.style.display = 'none';
     resultContainer.style.display = 'block';
-    scoreTextEl.innerHTML = `${score}<small>/${currentQuizData.length}問</small>`; // innerHTMLに変更
+    scoreTextEl.innerHTML = `${score}<small>/${currentQuizData.length}問</small>`;
+    
     let message = '';
     const percentage = (score / currentQuizData.length) * 100;
     if (percentage === 100) {
@@ -205,3 +240,34 @@ function showResult() {
     }
     resultMessageEl.innerText = message;
 }
+
+
+// ★★★★★ ここからが今回の修正の核 ★★★★★
+/**
+ * ページ読み込み時に実行する関数
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // セッションストレージから進行状況を取得
+    const savedProgress = sessionStorage.getItem('quizProgress');
+
+    if (savedProgress) {
+        // 保存されたデータがあれば、クイズを再開
+        const progress = JSON.parse(savedProgress);
+        
+        currentLevel = progress.level;
+        currentQuizData = (progress.level === 'beginner') ? quizDataBeginner : quizDataIntermediate;
+        currentQuestionIndex = progress.index;
+        score = progress.score;
+        
+        // スタート画面を隠し、クイズ画面を表示
+        startContainer.style.display = 'none';
+        quizContainer.style.display = 'block';
+        
+        loadQuiz();
+    }
+    // データがなければ、通常通りスタート画面が表示される
+});
+
+//【重要】クイズデータを省略せずに、ここに貼り付けてください
+// const quizDataBeginner = [ ... ];
+// const quizDataIntermediate = [ ... ];
