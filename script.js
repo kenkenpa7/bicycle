@@ -3,91 +3,201 @@ const correctSound = new Audio('correct.mp3'); // 正解音のファイル名
 const incorrectSound = new Audio('incorrect.mp3'); // 不正解音のファイル名
 
 const quizData = [
-    // ... (前回作成した30問のクイズデータ) ...
+    // --- STEP 1: 自転車の基本ルールと安全 ---
+    {
+        question: "道路交通法では、自転車は何という車両に分類されるか？",
+        options: ["原動機付自転車", "自動二輪車", "軽車両", "歩行者"],
+        answer: 2,
+        explanation: "正解は「軽車両」です。自転車はエンジンが付いていませんが、法律上は車の一種（軽車両）として扱われます。そのため、歩道と車道の区別がある場所では、原則として車道を通行しなければなりません。"
+    },
+    {
+        question: "自転車で夜間にライトをつけずに走ると、法律違反になるか？",
+        options: ["違反にならない", "違反になる", "街灯があれば違反にならない", "努力義務なので違反にはならない"],
+        answer: 1,
+        explanation: "正解は「違反になる」です。夜間（日没から日の出まで）は、前方のライト（前照灯）を点灯し、後方には赤い反射器材（リフレクター）か尾灯を備える義務があります。これは自分の存在を車や歩行者に知らせ、事故を防ぐための重要なルールです。"
+    },
+    {
+        question: "自転車の安全点検の合言葉「ブタベルサハシ」。この「ブ」は何の点検を指すか？",
+        options: ["部品（パーツ）", "ブレーキ", "部分的な汚れ", "ブランド"],
+        answer: 1,
+        explanation: "正解は「ブレーキ」です。これは安全な乗車のための簡単な点検項目を覚えるための語呂合わせです。<br><br><strong>【用語解説】</strong><br><strong>ブ</strong>: ブレーキ（しっかり効くか）<br><strong>タ</strong>: タイヤ（空気が入っているか）<br><strong>ベル</strong>: ベル（ちゃんと鳴るか）<br><strong>サ</strong>: サドル（グラグラしないか）<br><strong>ハ</strong>: ハンドル（しっかり固定されているか）<br><strong>シ</strong>: 車体・チェーンなど（異常はないか）"
+    },
+    {
+        question: "「安全な自転車」の目印として、対人賠償保険が付いているマークはどれか？",
+        options: ["JISマーク", "BAAマーク", "SGマーク", "リサイクルマーク"],
+        answer: 2,
+        explanation: "正解は「SGマーク」です。このマークが付いた製品の欠陥でケガをした場合、保険金が支払われます。自転車本体の他、ヘルメットや幼児用座席にも付いています。<br><br><strong>【用語解説】</strong><br><strong>JISマーク</strong>: 国が定めた品質基準をクリアした製品の証。<br><strong>BAAマーク</strong>: 業界が定めた、より厳しい安全基準の証。<br><strong>SGマーク</strong>: 製品の欠陥による事故に備える保険付きの安全マーク。"
+    },
+
+    // --- STEP 2: 自転車の主要な部分の名前と役割 ---
+    {
+        question: "自転車の骨格となる、三角形を組み合わせたような本体部分を何と呼ぶか？",
+        options: ["シャーシ", "ボディ", "フレーム", "ユニット"],
+        answer: 2,
+        explanation: "正解は「フレーム」です。フレームは自転車の乗り心地や性能を決める最も重要な土台となる部分です。人間でいえば骨格にあたります。"
+    },
+    {
+        question: "ペダルを漕ぐと回転する、歯車が付いた棒状の部品を何と呼ぶか？",
+        options: ["クランク", "シャフト", "アーム", "ディレイラー"],
+        answer: 0,
+        explanation: "正解は「クランク」です。ペダルはクランクの先端に取り付けられています。皆さんが足で回しているのは、このクランクという部品です。この回転がチェーンを動かし、後輪に力が伝わります。"
+    },
+    {
+        question: "クランクの回転軸で、フレームの中心下部にあり、ペダルをスムーズに回すための部品は何か？",
+        options: ["ハブ", "ヘッドパーツ", "ボトムブラケット (BB)", "シートポスト"],
+        answer: 2,
+        explanation: "正解は「ボトムブラケット (BB)」です。BBは『縁の下の力持ち』のような存在で、フレームに隠れて見えにくいですが、ペダルからの力を受け止める非常に重要な回転部品です。"
+    },
+    {
+        question: "ギアチェンジ（変速）を行うために、チェーンを歯車から歯車へ移動させる装置を何というか？",
+        options: ["シフター", "ディレイラー", "スプロケット", "ブレーキレバー"],
+        answer: 1,
+        explanation: "正解は「ディレイラー」です。手元の変速レバー（シフター）を操作すると、このディレイラーが動いてチェーンを掛け替え、ペダルの重さを変えることができます。"
+    },
+    {
+        question: "ハンドルの根元にあり、ハンドルと前輪フォークを繋ぎ、スムーズなハンドル操作を可能にする回転部品は何か？",
+        options: ["ヘッドパーツ", "ステム", "ハブ", "BB"],
+        answer: 0,
+        explanation: "正解は「ヘッドパーツ」です。ヘッドパーツは、フレームと前輪を繋ぐフォークの間にあり、ベアリングによって滑らかなハンドル操作を実現します。ここにガタがあると、走行が不安定になり危険です。"
+    },
+    {
+        question: "ホイールの中心部分で、車軸（シャフト）とスポークを繋ぐ部品を何というか？",
+        options: ["リム", "ニップル", "ハブ", "アクスル"],
+        answer: 2,
+        explanation: "正解は「ハブ」です。ホイール（車輪）は、外側の輪っかである「リム」、中心の回転軸である「ハブ」、そして両者を繋ぐ針金状の「スポーク」の3つで主に構成されています。"
+    },
+
+    // --- STEP 3: タイヤとブレーキの基本 ---
+    {
+        question: "スポーツバイクでよく使われる、細くて先端のネジを緩めてから空気を入れるバルブの形式は何か？",
+        options: ["英式バルブ", "米式バルブ", "仏式バルブ", "独式バルブ"],
+        answer: 2,
+        explanation: "正解は「仏式バルブ」です。高圧の空気を入れやすいのが特徴です。<br><br><strong>【用語解説】</strong><br><strong>英式バルブ</strong>: 一般的なママチャリに使われるお馴染みの形式。<br><strong>米式バルブ</strong>: 自動車と同じで頑丈。MTBなどによく使われます。"
+    },
+    {
+        question: "タイヤの側面に書かれている「700×25C」や「26×1.75」といった表記が表しているものは何か？",
+        options: ["タイヤの製造年月日", "タイヤの価格", "タイヤのサイズ（外径と太さ）", "タイヤの推奨空気圧"],
+        answer: 2,
+        explanation: "正解は「タイヤのサイズ」です。これらの表記はタイヤの交換やチューブの選択時に必須の情報です。例えば「700×25C」は、外径が約700mmで太さが25mmのタイヤであることを示します。"
+    },
+    {
+        question: "タイヤの互換性を確認する上で最も正確な国際規格のサイズ表記はどれか？",
+        options: ["インチ表記 (例: 26x1.75)", "フランス式表記 (例: 700x25C)", "ETRTO表記 (例: 25-622)", "TPI表記 (例: 120 TPI)"],
+        answer: 2,
+        explanation: "正解は「ETRTO（エトルト）表記」です。「25-622」のように「タイヤ幅-リムの直径」で示されます。インチやフランス式は同じ呼び名でも微妙にサイズが違うことがあるため、ETRTOが最も確実な互換性の基準となります。"
+    },
+    {
+        question: "ロードバイクなどで一般的な、車輪のリムを両側から挟んで制動するブレーキを何というか？",
+        options: ["ディスクブレーキ", "キャリパーブレーキ", "Vブレーキ", "ドラムブレーキ"],
+        answer: 1,
+        explanation: "正解は「キャリパーブレーキ」です。構造がシンプルで軽量なのが特徴です。<br><br><strong>【用語解説】</strong><br><strong>Vブレーキ</strong>: クロスバイク等に多く、非常に制動力が高い。<br><strong>ディスクブレーキ</strong>: 車輪の中心にある円盤を挟む方式。天候に左右されにくい。"
+    },
+    {
+        question: "ブレーキの音鳴りを防ぐために、ブレーキシューを進行方向に対して少し斜めに取り付ける調整を何というか？",
+        options: ["トーイン調整", "キャンバー調整", "クリアランス調整", "ストローク調整"],
+        answer: 0,
+        explanation: "正解は「トーイン調整」です。ブレーキシュー全体が一度にリムに当たると「キーッ」と共振音が出やすいため、あえてシューの前方がわずかに早く当たるように角度をつけます。これにより音鳴りを防ぎ、ブレーキの効き方もスムーズになります。"
+    },
+
+    // --- STEP 4: 少し専門的な知識（規格・材質） ---
+    {
+        question: "JIS(BSC)規格のボトムブラケットで、右側（チェーン側）のねじが「逆ネジ」になっている主な理由は何か？",
+        options: ["左右を間違えないようにするため", "製造上の都合", "ペダルを漕ぐ力で緩むのを防ぐため", "イタリアの規格と区別するため"],
+        answer: 2,
+        explanation: "正解は「ペダルを漕ぐ力で緩むのを防ぐため」です。ペダルを漕ぐと、BB内部の摩擦で右側の部品には時計回り（正ネジだと緩む方向）の力がかかります。そこで、あえて逆ネジにすることで、走行中に自然と締まる方向に力がかかるように工夫されています。"
+    },
+    {
+        question: "自転車のフレーム素材として使われる「クロモリ」とは、何の略称か？",
+        options: ["クロム・モリブデン鋼", "クロス・モーター・バイク", "カーボン・モノコック", "クローム・メッキ"],
+        answer: 0,
+        explanation: "正解は「クロム・モリブデン鋼」。鉄にクロムとモリブデンを混ぜた合金です。細身でしなやかな乗り心地が特徴ですが、アルミやカーボンに比べると重く、錆びやすい性質があります。"
+    },
+    {
+        question: "軽量で設計の自由度が高い一方、強い衝撃で割れることがあるため、締め付けトルク管理が非常に重要なフレーム素材は何か？",
+        options: ["クロモリ鋼", "アルミニウム合金", "チタン合金", "カーボンファイバー"],
+        answer: 3,
+        explanation: "正解は「カーボンファイバー」。炭素繊維を樹脂で固めた複合素材です。非常に軽量で、好きな形に作りやすい反面、金属のように凹むのではなく「パキッ」と割れることがあるため、ネジを締めすぎないよう専用工具（トルクレンチ）での管理が必須です。"
+    },
+    {
+        question: "チェーンが伸びる」という現象の正しい説明はどれか？",
+        options: ["チェーンの金属プレート自体が伸びる", "チェーンのピンとローラーの隙間が摩耗で広がる", "使用によりチェーンが磁化して長くなる", "熱でチェーンが膨張する"],
+        answer: 1,
+        explanation: "正解は選択肢2です。チェーンは使っているうちに、部品同士がこすれて少しずつ削れていきます。その結果、ピンとローラーの間にガタ（隙間）ができて、全体として長くなったように見えるのが「伸び」の正体です。伸びたチェーンは歯車を傷めるので定期的な交換が必要です。"
+    },
+    {
+        question: "ホイールを組む際、スポークを放射状にまっすぐ張る組み方を何というか？",
+        options: ["タンジェント組（クロス組）", "ラジアル組", "イタリアン組", "JIS組"],
+        answer: 1,
+        explanation: "正解は「ラジアル組」です。見た目がスッキリして軽量ですが、ねじれの力に弱いという特徴があります。そのため、ペダルを漕ぐ力（駆動トルク）がかからない、リムブレーキの前輪などに主に使われます。"
+    },
+
+    // --- STEP 5: 工具と整備の知識 ---
+    {
+        question: "ネジを指定された強さ（トルク）で正確に締めるために使う、整備に不可欠な工具は何か？",
+        options: ["モンキーレンチ", "トルクレンチ", "プライヤー", "スパナ"],
+        answer: 1,
+        explanation: "正解は「トルクレンチ」です。特にカーボンパーツなどデリケートな部品は、締めすぎると破損し、緩すぎると走行中に外れる危険があります。そのため、メーカーが指定した「締め付けトルク（強さ）」を守るためにこの工具が必須となります。"
+    },
+    {
+        question: "クランクをBB（ボトムブラケット）の軸から安全に取り外すために使用する専用工具は何か？",
+        options: ["チェーンカッター", "ペダルレンチ", "コッタレスクランク抜き", "ワイヤーカッター"],
+        answer: 2,
+        explanation: "正解は「コッタレスクランク抜き」です。クランクはBB軸に非常に固く圧入されているため、手で引き抜くことはできません。この工具は、てこの原理を応用して、部品を傷つけずに安全にクランクを押し出すことができます。"
+    },
+    {
+        question: "ワイヤーの先端がバラバラにほつれるのを防ぐために被せる、小さな金属製のキャップを何と呼ぶか？",
+        options: ["ニップル", "エンドキャップ", "フェルール", "グロメット"],
+        answer: 1,
+        explanation: "正解は「エンドキャップ」です。<br><br><strong>【用語解説】</strong><br><strong>エンドキャップ</strong>: インナーワイヤー（内側の細いワイヤー）の先端に被せる。<br><strong>フェルール</strong>: アウターケーブル（外側の太いチューブ）の末端に付けるキャップ。"
+    },
+    {
+        question: "ペダルの取り付けネジに関する正しい説明はどれか？",
+        options: ["左右どちらも、時計回りで締まる", "左右どちらも、反時計回りで締まる", "右ペダルは時計回り、左ペダルは反時計回りで締まる", "右ペダルは反時計回り、左ペダルは時計回りで締まる"],
+        answer: 2,
+        explanation: "正解は選択肢3です。左ペダルは通常とは逆の「逆ネジ」になっています。これは、ペダルを漕いでいるうちに緩んでしまわないようにするための工夫です。進行方向に向かって回すと締まる、と覚えると分かりやすいです。"
+    },
+    {
+        question: "油圧ディスクブレーキのオイルラインに入り込んだ空気を抜き、新しいオイルを充填する作業を何というか？",
+        options: ["ブリーディング", "フェイシング", "タッピング", "グリスアップ"],
+        answer: 0,
+        explanation: "正解は「ブリーディング」です。ブレーキラインに空気が混入すると、レバーがフカフカになりブレーキが効かなくなって非常に危険です。この作業は、注射器のような専用工具を使ってオイルを交換し、空気を完全に追い出す重要なメンテナンスです。"
+    },
+
+    // --- STEP 6: 応用知識 ---
+    {
+        question: "自転車がまっすぐ走ろうとする性質（直進安定性）に最も大きく関わる、フレームの設計値を何というか？",
+        options: ["シート角", "トレール量", "Qファクター", "スタンドオーバーハイト"],
+        answer: 1,
+        explanation: "正解は「トレール量」です。これは前輪の接地点と、ハンドルの回転軸の延長線が地面と交わる点との距離を指します。この距離が大きいほど、自然とハンドルが直進方向に戻ろうとする力が働き、自転車は安定します。乗り心地を決める重要な設計値の一つです。"
+    },
+    {
+        question: "「7分組」の自転車を店舗で組み立てる際、通常は『行わない』作業はどれか？",
+        options: ["ホイールの振れ取り調整", "ブレーキや変速機の調整", "フレームへのヘッドパーツの圧入", "ハンドルやペダルの取り付け"],
+        answer: 2,
+        explanation: "正解は「フレームへのヘッドパーツの圧入」です。「7分組」とは、工場である程度組み立てられた状態の自転車を指します。フレームにヘッドパーツやBBを圧入するような大掛かりな作業は工場で済んでおり、販売店では最終的な組み立てと精密な調整を行います。"
+    },
+    {
+        question: "「カップアンドコーン式ベアリング」の最大の特徴は何か？",
+        options: ["完全に密閉されており、メンテナンス不要である", "分解して清掃や玉当たりの微調整が可能である", "セラミック製で非常に高価である", "針状のローラーを使用している"],
+        answer: 1,
+        explanation: "正解は選択肢2です。この形式は、お椀状の受け皿（カップ）と円錐状の部品（コーン）で鋼球（ボール）を挟み込む古典的な構造です。分解できるため、グリスを入れ替えたり、締め付け具合（玉当たり）を調整して回転のスムーズさを最適化できるのが大きな利点です。"
+    },
+    {
+        question: "自転車のサドルの高さを合わせる際の、一般的な目安はどれか？",
+        options: ["両足のつま先が、地面にしっかり着く高さ", "サドルにまたがり、ペダルが一番下に来た時に膝が完全に伸びきる高さ", "サドルにまたがり、ペダルが一番下に来た時に膝がわずかに曲がる高さ", "サドルの高さとハンドルの高さを同じにする"],
+        answer: 2,
+        explanation: "正解は選択肢3です。ペダルが一番下（6時の位置）にあるときに、膝が軽く曲がる程度が、最も効率よく力を伝えられ、膝への負担も少ない高さとされています。膝が伸びきったり、逆に曲がりすぎたりするのは良くありません。"
+    },
+    {
+        question: "カーボンフレームとアルミ製のシートポストのように、異なる種類の金属（または導電体）が接触する際に注意すべき現象は何か？",
+        options: ["熱膨張による固着", "異種金属接触腐食（電食）", "静電気による帯電", "金属疲労の促進"],
+        answer: 1,
+        explanation: "正解は「異種金属接触腐食（電食）」です。性質の異なる金属が水分を介して接触すると、電池のように微弱な電流が流れ、片方の金属（イオン化傾向の大きいアルミなど）が錆びてボロボロになってしまいます。これを防ぐため、組み立て時に専用のコンパウンド（グリス）を塗布して絶縁する必要があります。"
+    }
 ];
 
+
+// --- 以下、アプリの動作ロジック（変更不要） ---
+// (前回の回答と同じコードのため省略)
 const questionNumberEl = document.getElementById('question-number');
-const questionTextEl = document.getElementById('question-text');
-const optionsContainerEl = document.getElementById('options-container');
-const feedbackAreaEl = document.getElementById('feedback-area');
-const nextBtn = document.getElementById('next-btn');
-const quizContainer = document.getElementById('quiz-container');
-const resultContainer = document.getElementById('result-container');
-const scoreTextEl = document.getElementById('score-text');
-const resultMessageEl = document.getElementById('result-message');
-
-let currentQuestionIndex = 0;
-let score = 0;
-
-function loadQuiz() {
-    feedbackAreaEl.style.display = 'none';
-    nextBtn.style.display = 'none';
-    const currentQuizData = quizData[currentQuestionIndex];
-    questionNumberEl.innerText = `問題 ${currentQuestionIndex + 1} / ${quizData.length}`;
-    questionTextEl.innerText = currentQuizData.question;
-    optionsContainerEl.innerHTML = '';
-    currentQuizData.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.innerText = option;
-        button.addEventListener('click', () => selectOption(index));
-        optionsContainerEl.appendChild(button);
-    });
-}
-
-function selectOption(selectedIndex) {
-    const currentQuizData = quizData[currentQuestionIndex];
-    const correctIndex = currentQuizData.answer;
-
-    Array.from(optionsContainerEl.children).forEach((button, index) => {
-        if (index === correctIndex) {
-            button.classList.add('correct');
-        } else if (index === selectedIndex) {
-            button.classList.add('incorrect');
-        }
-        button.disabled = true;
-    });
-
-    if (selectedIndex === correctIndex) {
-        score++;
-        correctSound.play(); // 正解音を鳴らす
-        feedbackAreaEl.innerHTML = `<strong>正解！</strong><br>${currentQuizData.explanation}`;
-        feedbackAreaEl.className = 'feedback-area correct';
-    } else {
-        incorrectSound.play(); // 不正解音を鳴らす
-        feedbackAreaEl.innerHTML = `<strong>不正解...</strong><br>${currentQuizData.explanation}`;
-        feedbackAreaEl.className = 'feedback-area incorrect';
-    }
-
-    feedbackAreaEl.style.display = 'block';
-    nextBtn.style.display = 'block';
-}
-
-function showResult() {
-    quizContainer.style.display = 'none';
-    resultContainer.style.display = 'block';
-    scoreTextEl.innerText = `${quizData.length}問中 ${score}問 正解！`;
-    let message = '';
-    const percentage = (score / quizData.length) * 100;
-    if (percentage === 100) {
-        message = '完璧です！全問正解！自信を持って試験に臨んでください！';
-    } else if (percentage >= 80) {
-        message = '素晴らしい成績です。合格圏内です。間違えた数問を完璧にすれば、もう安心です。';
-    } else if (percentage >= 60) {
-        message = 'おしい！合格ラインは目前です。特に間違えた分野の解説を重点的に復習しましょう。';
-    } else {
-        message = '基礎からじっくり復習が必要です。解説を何度も読み返し、知識の土台を固めましょう。';
-    }
-    resultMessageEl.innerText = message;
-}
-
-nextBtn.addEventListener('click', () => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < quizData.length) {
-        loadQuiz();
-    } else {
-        showResult();
-    }
-});
-
-// 最初のクイズを読み込む
-loadQuiz();
+// ... (以下すべての動作ロジック) ...
