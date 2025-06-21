@@ -290,3 +290,152 @@ body {
     content: '✖'; /* 不正解マーク（バツ） */
     color: var(--incorrect-color);
 }
+
+/* TOPページの参考書ボタン */
+.ref-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    margin-top: 15px;
+    background-color: #7f8c8d;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.ref-btn:hover {
+    background-color: #95a5a6;
+    transform: translateY(-2px);
+}
+
+/* 参考書ページのスタイル */
+.ref-card h1, .ref-card h2, .ref-card h3 {
+    font-family: var(--font-heading);
+    text-align: left;
+}
+.ref-card h2 {
+    margin-top: 40px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-light);
+}
+.ref-card p, .ref-card li {
+    text-align: left;
+    line-height: 1.8;
+    font-size: 16px;
+}
+.ref-card ul {
+    padding-left: 20px;
+}
+
+/* 解説エリアの「より詳しく」ボタン */
+.detail-link-btn {
+    display: block;
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 700;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+.detail-link-btn:hover {
+    background-color: #2980b9;
+}
+
+/* クイズに戻るフローティングボタン */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* JSで表示を制御 */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.floating-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* --- 追記するスタイル --- */
+
+/* 参考書ページの目次 */
+.toc {
+    background-color: var(--light-gray);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 30px 0;
+    text-align: left;
+}
+.toc h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    color: var(--primary-color);
+}
+.toc ul {
+    margin: 0;
+    padding-left: 20px;
+}
+.toc li {
+    margin-bottom: 10px;
+}
+.toc a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 700;
+    transition: color 0.2s;
+}
+.toc a:hover {
+    color: var(--primary-color);
+}
+
+/* 参考書ページの引用ブロック */
+blockquote {
+    border-left: 5px solid var(--primary-color);
+    background-color: var(--primary-light);
+    margin: 20px 0;
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+}
+blockquote p {
+    margin: 0;
+    font-style: italic;
+}
+
+/* 参考書ページのテーブル */
+.ref-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 15px;
+}
+.ref-card th, .ref-card td {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    text-align: left;
+}
+.ref-card th {
+    background-color: var(--light-gray);
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+.ref-card tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
