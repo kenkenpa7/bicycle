@@ -31,11 +31,8 @@ body {
 }
 
 .app-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-bottom: 25px;
-    gap: 10px;
+    text-align: center;
 }
 
 .app-header h1 {
@@ -44,12 +41,7 @@ body {
     font-size: 26px;
     font-weight: 700;
     margin: 0;
-}
-
-.bike-icon {
-    width: 32px;
-    height: 32px;
-    color: var(--primary-color);
+    line-height: 1.4;
 }
 
 .card {
@@ -66,56 +58,68 @@ body {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 24px;
+    margin-top: 0;
     margin-bottom: 30px;
 }
 
-.level-btn {
+.level-btn, .ref-btn {
     display: block;
     width: 100%;
     padding: 20px;
     margin-bottom: 15px;
-    font-size: 18px;
-    font-weight: 700;
     font-family: var(--font-heading);
+    font-weight: 700;
     line-height: 1.4;
     cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-sizing: border-box; /* ★★★ ボタンの長さを揃えるためのキー ★★★ */
+}
+.level-btn {
+    font-size: 18px;
     border: 2px solid var(--border-color);
     background-color: #fff;
     color: var(--text-color);
-    border-radius: 12px;
-    transition: all 0.2s ease;
 }
-
 .level-btn:hover {
     border-color: var(--primary-color);
     background-color: var(--primary-light);
     color: var(--primary-color);
     transform: translateY(-3px);
 }
-
 .level-btn small {
     font-weight: 400;
     font-size: 14px;
     font-family: var(--font-body);
     color: #7f8c8d;
 }
+.ref-btn {
+    padding: 22px 20px; /* level-btnと高さを合わせるため微調整 */
+    margin-top: 15px;
+    background-color: #7f8c8d;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+.ref-btn:hover {
+    background-color: #95a5a6;
+    transform: translateY(-2px);
+}
+
 
 /* --- クイズ画面 --- */
 #quiz-container {
     text-align: left;
 }
-
 .quiz-header {
     margin-bottom: 20px;
 }
-
 #question-number {
     font-size: 16px;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 8px;
 }
-
 #progress-bar-container {
     width: 100%;
     height: 8px;
@@ -123,7 +127,6 @@ body {
     border-radius: 4px;
     overflow: hidden;
 }
-
 #progress-bar {
     height: 100%;
     width: 0%;
@@ -131,14 +134,12 @@ body {
     border-radius: 4px;
     transition: width 0.3s ease;
 }
-
 #question-text {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 25px;
     line-height: 1.6;
 }
-
 .options-container button {
     display: block;
     width: 100%;
@@ -152,31 +153,48 @@ body {
     font-size: 16px;
     font-family: var(--font-body);
     transition: all 0.2s ease;
+    position: relative;
+    padding-left: 50px;
 }
-
 .options-container button:hover:not(:disabled) {
     border-color: var(--primary-color);
     background-color: var(--primary-light);
 }
-
 .options-container button:disabled {
     cursor: not-allowed;
     opacity: 0.9;
 }
-
 .options-container button.correct {
     border-color: var(--correct-color);
     background-color: var(--correct-light);
     color: var(--correct-color);
     font-weight: 700;
 }
-
 .options-container button.incorrect {
     border-color: var(--incorrect-color);
     background-color: var(--incorrect-light);
     color: var(--incorrect-color);
 }
-
+.options-container button.correct::before,
+.options-container button.incorrect::before {
+    content: '';
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+}
+.options-container button.correct::before {
+    content: '✔';
+    color: var(--correct-color);
+}
+.options-container button.incorrect::before {
+    content: '✖';
+    color: var(--incorrect-color);
+}
 .feedback-area {
     margin-top: 20px;
     padding: 15px 20px;
@@ -185,24 +203,22 @@ body {
     line-height: 1.7;
     text-align: left;
     display: none;
+    border-left: 5px solid;
 }
 .feedback-area strong {
     font-size: 16px;
     font-weight: 700;
 }
-
 .feedback-area.correct {
     background-color: var(--correct-light);
-    border-left: 5px solid var(--correct-color);
+    border-color: var(--correct-color);
     display: block;
 }
-
 .feedback-area.incorrect {
     background-color: var(--incorrect-light);
-    border-left: 5px solid var(--incorrect-color);
+    border-color: var(--incorrect-color);
     display: block;
 }
-
 .next-btn, #restart-btn {
     display: block;
     width: 100%;
@@ -218,14 +234,13 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
 }
-
 .next-btn:hover, #restart-btn:hover {
-    background-color: #2980b9; /* 少し濃い水色 */
+    background-color: #2980b9;
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
     transform: translateY(-2px);
 }
-
 .next-btn { display: none; }
+
 
 /* --- 結果画面 --- */
 #result-container h2 {
@@ -234,7 +249,6 @@ body {
     font-size: 28px;
     color: var(--text-color);
 }
-
 #score-circle {
     width: 150px;
     height: 150px;
@@ -246,7 +260,6 @@ body {
     align-items: center;
     margin: 25px auto;
 }
-
 #score-text {
     font-size: 20px;
     font-weight: 700;
@@ -254,66 +267,14 @@ body {
     text-align: center;
     line-height: 1.2;
 }
-
 #result-message {
     font-size: 18px;
     line-height: 1.6;
     margin-bottom: 25px;
 }
 
-/* --- 追記するスタイル --- */
-
-.options-container button {
-    position: relative; /* マークを配置するための基準点 */
-    padding-left: 50px; /* マークを表示するスペースを確保 */
-}
-
-.options-container button.correct::before,
-.options-container button.incorrect::before {
-    content: '';
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    line-height: 1;
-}
-
-.options-container button.correct::before {
-    content: '✔'; /* 正解マーク（チェック） */
-    color: var(--correct-color);
-}
-
-.options-container button.incorrect::before {
-    content: '✖'; /* 不正解マーク（バツ） */
-    color: var(--incorrect-color);
-}
-
-/* TOPページの参考書ボタン */
-.ref-btn {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    margin-top: 15px;
-    background-color: #7f8c8d;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: var(--font-heading);
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-.ref-btn:hover {
-    background-color: #95a5a6;
-    transform: translateY(-2px);
-}
-
-/* 参考書ページのスタイル */
+/* --- 参考書ページ --- */
 .ref-card h1, .ref-card h2, .ref-card h3 {
-    font-family: var(--font-heading);
     text-align: left;
 }
 .ref-card h2 {
@@ -329,51 +290,17 @@ body {
 .ref-card ul {
     padding-left: 20px;
 }
-
-/* 解説エリアの「より詳しく」ボタン */
-.detail-link-btn {
-    display: block;
-    margin-top: 15px;
-    padding: 8px 12px;
-    background-color: var(--primary-color);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 700;
-    text-align: center;
-    transition: background-color 0.2s;
-}
-.detail-link-btn:hover {
-    background-color: #2980b9;
-}
-
-/* クイズに戻るフローティングボタン */
-.floating-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--primary-color);
-    color: white;
+blockquote {
+    border-left: 5px solid var(--primary-color);
+    background-color: var(--primary-light);
+    margin: 20px 0;
     padding: 15px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    display: none; /* JSで表示を制御 */
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+    border-radius: 0 8px 8px 0;
 }
-.floating-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+blockquote p {
+    margin: 0;
+    font-style: italic;
 }
-
-/* --- 追記するスタイル --- */
-
-/* 参考書ページの目次 */
 .toc {
     background-color: var(--light-gray);
     border: 1px solid var(--border-color);
@@ -389,108 +316,123 @@ body {
     font-size: 18px;
     color: var(--primary-color);
 }
-.toc ul {
-    margin: 0;
-    padding-left: 20px;
-}
-.toc li {
-    margin-bottom: 10px;
-}
-.toc a {
+.toc ul { margin: 0; padding-left: 20px; }
+.toc li { margin-bottom: 10px; }
+.toc a { text-decoration: none; color: var(--text-color); font-weight: 700; transition: color 0.2s; }
+.toc a:hover { color: var(--primary-color); }
+.detail-link-btn {
+    display: block;
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: #fff;
     text-decoration: none;
-    color: var(--text-color);
+    border-radius: 6px;
     font-weight: 700;
-    transition: color 0.2s;
+    text-align: center;
+    transition: background-color 0.2s;
 }
-.toc a:hover {
-    color: var(--primary-color);
-}
-
-/* 参考書ページの引用ブロック */
-blockquote {
-    border-left: 5px solid var(--primary-color);
-    background-color: var(--primary-light);
-    margin: 20px 0;
+.detail-link-btn:hover { background-color: #2980b9; }
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
     padding: 15px 20px;
-    border-radius: 0 8px 8px 0;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
-blockquote p {
-    margin: 0;
-    font-style: italic;
+.floating-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* 参考書ページのテーブル */
+/* ★★★★★ ここからが今回の修正の核 ★★★★★ */
 
 /* スマホ対応テーブルのスタイル */
 .responsive-table {
     margin: 25px 0;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    overflow: hidden; /* 角丸を効かせるため */
-}
-
-.table-row {
-    display: flex;
     width: 100%;
+    border: 1px solid var(--border-color); /* 枠線を追加 */
+    border-radius: 8px;
+    overflow: hidden;
+}
+.responsive-table .table-row {
+    display: flex;
     border-bottom: 1px solid var(--border-color);
 }
-.table-row:last-child {
+.responsive-table .table-row:last-child {
     border-bottom: none;
 }
-
-.table-cell {
+.responsive-table .table-cell {
     padding: 12px 15px;
-    flex-basis: 25%; /* PCでは各セルが25%の幅を持つ */
     flex-grow: 1;
+    flex-basis: 0; /* 均等割付の基本 */
     text-align: left;
+    border-right: 1px solid var(--border-color); /* 縦の区切り線 */
 }
-.table-row.header {
+.responsive-table .table-cell:last-child {
+    border-right: none;
+}
+.responsive-table .table-row.header {
     background-color: var(--light-gray);
     font-family: var(--font-heading);
     font-weight: 700;
 }
 
-/* --- ここからがスマホ対応の核（メディアクエリ） --- */
-@media screen and (max-width: 768px) {
-    .responsive-table .table-row.header {
-        display: none; /* スマホではPC用のヘッダー行を隠す */
-    }
-    .responsive-table .table-row {
-        flex-direction: column; /* 行を縦積みにする */
-        margin-bottom: 15px;
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-    }
-    .responsive-table .table-cell {
-        display: flex;
-        justify-content: space-between; /* ラベルと内容を両端に配置 */
-        align-items: center;
-        padding: 10px 15px;
-        border-bottom: 1px dashed var(--border-color);
-        flex-basis: auto; /* 幅を自動に */
-    }
-    .table-cell:last-child {
-        border-bottom: none;
-    }
-    .responsive-table .table-cell::before {
-        content: attr(data-label); /* data-label属性の内容を見出しとして表示 */
-        font-weight: 700;
-        margin-right: 10px;
-        color: var(--primary-color);
-    }
 
-    /* 参考書本文の調整 */
-    .card.ref-card {
+/* --- メディアクエリ（スマホ対応） --- */
+@media screen and (max-width: 768px) {
+    .card {
         padding: 20px;
     }
     .ref-card p, .ref-card li {
         font-size: 15px;
         line-height: 1.9;
     }
-    .ref-card h2 {
-        font-size: 22px;
+    .ref-card h2 { font-size: 22px; }
+    .ref-card h3 { font-size: 18px; }
+
+    /* ★★★ 参考書の表のスマホ表示を修正 ★★★ */
+    .responsive-table {
+        border: none;
+        border-radius: 0;
     }
-     .ref-card h3 {
-        font-size: 18px;
+    .responsive-table .table-row.header {
+        display: none;
+    }
+    .responsive-table .table-row {
+        flex-direction: column;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 15px;
+        padding: 5px 0;
+    }
+    .responsive-table .table-cell {
+        display: block; /* ラベルと内容を縦積みにする */
+        width: 100%;
+        padding: 10px 15px;
+        border: none;
+        box-sizing: border-box;
+    }
+    .responsive-table .table-cell:not(:last-child) {
+        border-bottom: 1px dashed var(--border-color); /* 各項目間の区切り線 */
+    }
+    .responsive-table .table-cell::before {
+        content: attr(data-label);
+        display: block; /* ラベルをブロック要素にして改行させる */
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 5px; /* ラベルと内容の間に余白 */
+        font-size: 14px;
     }
 }
