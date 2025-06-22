@@ -14,6 +14,7 @@ const intermediateBtn = document.getElementById('intermediate-btn');
 const restartBtn = document.getElementById('restart-btn');
 const progressBar = document.getElementById('progress-bar');
 const homeBtn = document.getElementById('home-btn');
+const topImageWrapper = document.querySelector('.top-image-wrapper'); 
 
 // --- 効果音の読み込み ---
 const correctSound = new Audio('correct.mp3');
@@ -118,6 +119,9 @@ nextBtn.addEventListener('click', () => {
 restartBtn.addEventListener('click', () => {
     sessionStorage.removeItem('quizProgress');
     document.body.className = 'theme-top';
+
+    topImageWrapper.style.display = 'block';
+
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'none';
     startContainer.style.display = 'block';
@@ -141,6 +145,7 @@ function startQuiz(level) {
     score = 0;
     sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
     document.body.className = `theme-${level}`;
+    topImageWrapper.style.display = 'none';
     startContainer.style.display = 'none';
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'block';
