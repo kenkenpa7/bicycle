@@ -18,8 +18,6 @@
 }
 
 /* ★★★★★ テーマごとの配色定義 ★★★★★ */
-
-/* --- 1. TOP画面のテーマ --- */
 .theme-top {
     --theme-bg: #f0f8ff; /* AliceBlue */
     --primary-color: #3498db; /* DodgerBlue */
@@ -28,12 +26,11 @@
     --text-color: var(--text-color-base);
     --card-bg: var(--card-bg-base);
     --border-color: var(--border-color-base);
+    --light-gray: var(--light-gray-base);
     --btn-hover-bg: var(--primary-light);
     --btn-hover-border: var(--primary-color);
     --btn-hover-color: var(--primary-color);
 }
-
-/* --- 2. 初級編のテーマ --- */
 .theme-beginner {
     --theme-bg: #f0fff4; /* Honeydew */
     --primary-color: #2ecc71; /* Emerald */
@@ -42,20 +39,20 @@
     --text-color: var(--text-color-base);
     --card-bg: var(--card-bg-base);
     --border-color: var(--border-color-base);
+    --light-gray: var(--light-gray-base);
     --btn-hover-bg: var(--primary-light);
     --btn-hover-border: var(--primary-color);
     --btn-hover-color: var(--primary-color);
 }
-
-/* --- 3. 中級編のテーマ --- */
 .theme-intermediate {
     --theme-bg: #1B2631; /* 深い紺色 */
     --primary-color: #F39C12; /* オレンジ/ゴールド系 */
     --primary-light: #fdf3e2;
-    --header-color: #e0e6eb; /* 白に近いグレー */
+    --header-color: #e0e6eb;
     --text-color: #d5dbdb;
     --card-bg: #283747;
     --border-color: #425568;
+    --light-gray: #34495e;
     --btn-hover-bg: #34495e;
     --btn-hover-border: var(--primary-color);
     --btn-hover-color: var(--primary-color);
@@ -76,12 +73,10 @@ body {
     box-sizing: border-box;
     transition: background-color 0.4s ease;
 }
-
 .container {
     width: 100%;
-    max-width: 650px;
+    max-width: 700px;
 }
-
 .app-header h1 {
     font-family: var(--font-heading);
     color: var(--header-color);
@@ -91,7 +86,6 @@ body {
     line-height: 1.4;
     text-align: center;
 }
-
 .card {
     background-color: var(--card-bg);
     border-radius: 16px;
@@ -117,55 +111,32 @@ body {
 .theme-intermediate .start-container h2 { color: var(--header-color); }
 
 .level-btn, .ref-btn {
-    display: block;
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 15px;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    line-height: 1.4;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
+    display: block; width: 100%; padding: 20px; margin-bottom: 15px; font-family: var(--font-heading);
+    font-weight: 700; line-height: 1.4; cursor: pointer; border-radius: 12px;
+    transition: all 0.2s ease; box-sizing: border-box;
 }
 .level-btn {
-    font-size: 18px;
-    border: 2px solid var(--border-color);
-    background-color: var(--card-bg);
-    color: var(--text-color);
+    font-size: 18px; border: 2px solid var(--border-color); background-color: var(--card-bg); color: var(--text-color);
 }
 .level-btn:hover {
-    border-color: var(--btn-hover-border);
-    background-color: var(--btn-hover-bg);
-    color: var(--btn-hover-color);
-    transform: translateY(-3px);
+    border-color: var(--btn-hover-border); background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-color); transform: translateY(-3px);
 }
 .level-btn small { font-weight: 400; font-size: 14px; font-family: var(--font-body); color: #7f8c8d; }
 .theme-intermediate .level-btn small { color: #95a5a6; }
+
 .ref-btn {
-    padding: 22px 20px;
-    margin-top: 15px;
-    background-color: #7f8c8d;
-    color: white;
-    font-size: 16px;
-    text-decoration: none;
-    border: 2px solid transparent;
+    padding: 22px 20px; margin-top: 15px; font-size: 16px; text-decoration: none;
+    background-color: transparent; color: #7f8c8d; border: 2px solid #bdc3c7;
 }
-.ref-btn:hover { background-color: #95a5a6; transform: translateY(-2px); }
+.ref-btn:hover { background-color: #ecf0f1; border-color: #95a5a6; color: #34495e; }
+
 
 /* --- クイズ画面 --- */
 .quiz-header { margin-bottom: 20px; }
-#question-number {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 8px;
-}
-#progress-bar-container { background-color: var(--light-gray-base); }
-.theme-intermediate #progress-bar-container { background-color: #34495e; }
-#progress-bar { background-color: var(--primary-color); transition: width 0.3s ease; height: 100%; width: 0%; border-radius: 4px;}
-#progress-bar-container { width: 100%; height: 8px; border-radius: 4px; overflow: hidden; }
+#question-number { font-size: 16px; font-weight: 700; color: var(--primary-color); margin-bottom: 8px; }
+#progress-bar-container { width: 100%; height: 8px; background-color: var(--light-gray); border-radius: 4px; overflow: hidden; }
+#progress-bar { height: 100%; width: 0%; background-color: var(--primary-color); border-radius: 4px; transition: width 0.3s ease; }
 #question-text { font-size: 20px; font-weight: 700; line-height: 1.6; margin-bottom: 25px; }
 
 .options-container button {
@@ -220,42 +191,43 @@ body {
 /* --- 参考書ページ --- */
 .ref-card h2, .ref-card h3 { text-align: left; }
 .ref-card h2 { margin-top: 40px; padding-bottom: 10px; border-bottom: 2px solid var(--primary-light); }
-.theme-intermediate .ref-card h2 { border-bottom-color: #34495e; }
 .ref-card p, .ref-card li { text-align: left; line-height: 1.8; font-size: 16px; }
+.ref-card ul { padding-left: 20px; }
 blockquote { border-left: 5px solid var(--primary-color); background-color: var(--primary-light); margin: 20px 0; padding: 15px 20px; border-radius: 0 8px 8px 0; }
 blockquote p { margin: 0; font-style: italic; }
-.toc { background-color: var(--light-gray-base); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin: 30px 0; text-align: left; }
+.toc { background-color: var(--light-gray); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin: 30px 0; text-align: left; }
 .toc h4 { margin-top: 0; margin-bottom: 15px; font-family: var(--font-heading); font-size: 18px; color: var(--primary-color); }
 .toc ul { margin: 0; padding-left: 20px; }
 .toc li { margin-bottom: 10px; }
 .toc a { text-decoration: none; color: var(--text-color); font-weight: 700; transition: color 0.2s; }
 .toc a:hover { color: var(--primary-color); }
-.theme-intermediate .toc, .theme-intermediate blockquote { background-color: #2c3e50; border-color: #425568; }
-.theme-intermediate .toc a, .theme-intermediate blockquote { color: var(--text-color); }
 
-.detail-link-btn { display: block; margin-top: 15px; padding: 8px 12px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 700; text-align: center; transition: background-color 0.2s; }
-.theme-intermediate .detail-link-btn { color: #1c1c1c; }
-.detail-link-btn:hover { background-color: color-mix(in srgb, var(--primary-color) 80%, black); }
+.detail-link-btn {
+    display: inline-block; margin-top: 15px; padding: 6px 15px; background-color: var(--primary-light);
+    color: var(--primary-color); border: 1px solid var(--border-color); text-decoration: none;
+    border-radius: 20px; font-weight: 700; font-size: 14px; transition: all 0.2s;
+}
+.detail-link-btn:hover { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); transform: translateY(-2px); }
+.theme-intermediate .detail-link-btn { background-color: #34495e; border-color: #425568; color: var(--text-color); }
+.theme-intermediate .detail-link-btn:hover { background-color: var(--primary-color); color: #1c1c1c; border-color: var(--primary-color); }
 
 .floating-btn {
-    position: fixed; bottom: 20px; right: 20px; background-color: var(--primary-color); color: white;
-    padding: 15px 20px; border-radius: 50px; text-decoration: none; font-family: var(--font-heading);
-    font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); z-index: 1000; display: none;
-    align-items: center; justify-content: center; transition: all 0.2s ease;
+    position: fixed; bottom: 20px; padding: 12px 18px; border-radius: 50px; text-decoration: none;
+    font-family: var(--font-heading); font-weight: 700; font-size: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); z-index: 1000; transition: all 0.2s ease;
 }
-.theme-intermediate .floating-btn { color: #1c1c1c; }
 .floating-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); }
+.floating-btn:not(.home) { right: 20px; background-color: var(--primary-color); color: white; display: none; }
+.theme-intermediate .floating-btn:not(.home) { color: #1c1c1c; }
+.floating-btn.home { left: 20px; background-color: #fff; color: #7f8c8d; border: 1px solid var(--border-color); display: block; }
+.floating-btn.home:hover { background-color: #f8f9fa; }
 
 .responsive-table { margin: 25px 0; width: 100%; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
 .responsive-table .table-row { display: flex; border-bottom: 1px solid var(--border-color); }
 .responsive-table .table-row:last-child { border-bottom: none; }
 .responsive-table .table-cell { padding: 12px 15px; flex-grow: 1; flex-basis: 0; text-align: left; border-right: 1px solid var(--border-color); }
 .responsive-table .table-cell:last-child { border-right: none; }
-.responsive-table .table-row.header { background-color: var(--light-gray-base); font-family: var(--font-heading); font-weight: 700; }
-.theme-intermediate .responsive-table { border-color: #425568; }
-.theme-intermediate .responsive-table .table-row { border-color: #425568; }
-.theme-intermediate .responsive-table .table-cell { border-color: #425568; }
-.theme-intermediate .responsive-table .table-row.header { background-color: #34495e; }
+.responsive-table .table-row.header { background-color: var(--light-gray); font-family: var(--font-heading); font-weight: 700; }
 
 /* --- メディアクエリ（スマホ対応） --- */
 @media screen and (max-width: 768px) {

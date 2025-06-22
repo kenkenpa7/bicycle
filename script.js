@@ -13,6 +13,7 @@ const beginnerBtn = document.getElementById('beginner-btn');
 const intermediateBtn = document.getElementById('intermediate-btn');
 const restartBtn = document.getElementById('restart-btn');
 const progressBar = document.getElementById('progress-bar');
+const homeBtn = document.getElementById('home-btn');
 
 // --- 効果音の読み込み ---
 const correctSound = new Audio('correct.mp3');
@@ -91,93 +92,69 @@ const quizDataIntermediate = [
 ];
 
 
-
 // --- グローバル変数 ---
 let currentQuizData = [];
 let currentQuestionIndex = 0;
 let score = 0;
-let currentLevel = ''; // 'beginner' or 'intermediate'
+let currentLevel = '';
 
 
 // --- イベントリスナー ---
 beginnerBtn.addEventListener('click', () => {
     startQuiz('beginner');
 });
-
 intermediateBtn.addEventListener('click', () => {
     startQuiz('intermediate');
 });
-
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex++;
-    // ★★★ セッションストレージを更新 ★★★
     sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
-    
     if (currentQuestionIndex < currentQuizData.length) {
         loadQuiz();
     } else {
         showResult();
     }
 });
-
 restartBtn.addEventListener('click', () => {
-    // ★★★ セッションストレージをクリア ★★★
     sessionStorage.removeItem('quizProgress');
-
-    // ★★★ ここから追記 ★★★
-    // TOP画面のテーマに戻す
     document.body.className = 'theme-top';
-    // ★★★ ここまで追記 ★★★
-    
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'none';
     startContainer.style.display = 'block';
 });
-
+homeBtn.addEventListener('click', (e) => {
+    if (sessionStorage.getItem('quizProgress')) {
+        const isSure = confirm('TOPページに戻ります。クイズの進行状況はリセットされますが、よろしいですか？');
+        if (isSure) {
+            sessionStorage.removeItem('quizProgress');
+        } else {
+            e.preventDefault();
+        }
+    }
+});
 
 // --- 関数群 ---
-
-/**
- * クイズを開始する関数
- * @param {string} level - 'beginner' or 'intermediate'
- */
 function startQuiz(level) {
     currentLevel = level;
     currentQuizData = (level === 'beginner') ? quizDataBeginner : quizDataIntermediate;
     currentQuestionIndex = 0;
     score = 0;
-    
-    // ★★★ セッションストレージに保存 ★★★
     sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
-
-    // ★★★ ここから追記 ★★★
-    // ボディにテーマクラスを設定
     document.body.className = `theme-${level}`;
-    // ★★★ ここまで追記 ★★★
-
     startContainer.style.display = 'none';
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'block';
-
     loadQuiz();
 }
-
-/**
- * 現在の問題を画面に表示する関数
- */
 function loadQuiz() {
     feedbackAreaEl.style.display = 'none';
     nextBtn.style.display = 'none';
-
     const quiz = currentQuizData[currentQuestionIndex];
-    
     questionNumberEl.innerText = `問題 ${currentQuestionIndex + 1} / ${currentQuizData.length}`;
     questionTextEl.innerText = quiz.question;
     optionsContainerEl.innerHTML = '';
-    
     const progressPercent = ((currentQuestionIndex) / currentQuizData.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
-
     quiz.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.innerHTML = option;
@@ -185,110 +162,58 @@ function loadQuiz() {
         optionsContainerEl.appendChild(button);
     });
 }
-
-/**
- * 選択肢が選ばれたときの処理
- * @param {number} selectedIndex - 選ばれた選択肢のインデックス
- */
 function selectOption(selectedIndex) {
     const quiz = currentQuizData[currentQuestionIndex];
     const correctIndex = quiz.answer;
     const allOptions = Array.from(optionsContainerEl.children);
-
-    allOptions.forEach(button => {
-        button.disabled = true;
-    });
-
+    allOptions.forEach(button => { button.disabled = true; });
     const progressPercent = ((currentQuestionIndex + 1) / currentQuizData.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
-
     if (selectedIndex === correctIndex) {
         score++;
         correctSound.play();
         allOptions[selectedIndex].classList.add('correct');
-        // ★★★ スコアをセッションストレージに反映 ★★★
         sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
     } else {
         incorrectSound.play();
         allOptions[selectedIndex].classList.add('incorrect');
         allOptions[correctIndex].classList.add('correct');
     }
-    
     let feedbackHTML = (selectedIndex === correctIndex) ? `<strong>正解！</strong><br>${quiz.explanation}` : `<strong>不正解...</strong><br>${quiz.explanation}`;
     if (quiz.refId) {
-        // ★★★ リンク先に現在の問題番号を渡す ★★★
-        feedbackHTML += `<a href="reference.html?from=quiz&index=${currentQuestionIndex}#${quiz.refId}" class="detail-link-btn">参考書で詳しく見る</a>`;
+        feedbackHTML += `<a href="reference.html?from=quiz#${quiz.refId}" class="detail-link-btn">参考書で詳しく見る</a>`;
     }
     feedbackAreaEl.innerHTML = feedbackHTML;
     feedbackAreaEl.className = (selectedIndex === correctIndex) ? 'feedback-area correct' : 'feedback-area incorrect';
-
     feedbackAreaEl.style.display = 'block';
     nextBtn.style.display = 'block';
 }
-
-/**
- * 結果を表示する関数
- */
 function showResult() {
-    // ★★★ 終了したらセッションストレージをクリア ★★★
     sessionStorage.removeItem('quizProgress');
-
     quizContainer.style.display = 'none';
     resultContainer.style.display = 'block';
     scoreTextEl.innerHTML = `${score}<small>/${currentQuizData.length}問</small>`;
-    
     let message = '';
     const percentage = (score / currentQuizData.length) * 100;
-    if (percentage === 100) {
-        message = '完璧です！全問正解！自信を持って試験に臨んでください！';
-    } else if (percentage >= 80) {
-        message = '素晴らしい成績です。合格圏内です。間違えた数問を完璧にすれば、もう安心です。';
-    } else if (percentage >= 60) {
-        message = 'おしい！合格ラインは目前です。特に間違えた分野の解説を重点的に復習しましょう。';
-    } else {
-        message = '基礎からじっくり復習が必要です。解説を何度も読み返し、知識の土台を固めましょう。';
-    }
+    if (percentage === 100) { message = '完璧です！全問正解！自信を持って試験に臨んでください！'; }
+    else if (percentage >= 80) { message = '素晴らしい成績です。合格圏内です。間違えた数問を完璧にすれば、もう安心です。'; }
+    else if (percentage >= 60) { message = 'おしい！合格ラインは目前です。特に間違えた分野の解説を重点的に復習しましょう。'; }
+    else { message = '基礎からじっくり復習が必要です。解説を何度も読み返し、知識の土台を固めましょう。'; }
     resultMessageEl.innerText = message;
 }
-
-
-// ★★★★★ ここからが今回の修正の核 ★★★★★
-/**
- * ページ読み込み時に実行する関数
- */
 document.addEventListener('DOMContentLoaded', () => {
-    // セッションストレージから進行状況を取得
     const savedProgress = sessionStorage.getItem('quizProgress');
-
     if (savedProgress) {
-        // 保存されたデータがあれば、クイズを再開
         const progress = JSON.parse(savedProgress);
-        
         currentLevel = progress.level;
         currentQuizData = (progress.level === 'beginner') ? quizDataBeginner : quizDataIntermediate;
         currentQuestionIndex = progress.index;
         score = progress.score;
-        
-         // ★★★ ここから追記 ★★★
-        // 保存されたレベルのテーマを適用
         document.body.className = `theme-${progress.level}`;
-        // ★★★ ここまで追記 ★★★
-
-        // スタート画面を隠し、クイズ画面を表示
         startContainer.style.display = 'none';
         quizContainer.style.display = 'block';
-        
         loadQuiz();
-     
-         // ★★★ ここから追記 ★★★
-        // 保存データがない場合はTOPテーマを確実に適用
+    } else {
         document.body.className = 'theme-top';
-        // ★★★ ここまで追記 ★★★
-   
     }
-    // データがなければ、通常通りスタート画面が表示される
 });
-
-//【重要】クイズデータを省略せずに、ここに貼り付けてください
-// const quizDataBeginner = [ ... ];
-// const quizDataIntermediate = [ ... ];
