@@ -123,6 +123,11 @@ nextBtn.addEventListener('click', () => {
 restartBtn.addEventListener('click', () => {
     // ★★★ セッションストレージをクリア ★★★
     sessionStorage.removeItem('quizProgress');
+
+    // ★★★ ここから追記 ★★★
+    // TOP画面のテーマに戻す
+    document.body.className = 'theme-top';
+    // ★★★ ここまで追記 ★★★
     
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'none';
@@ -144,6 +149,11 @@ function startQuiz(level) {
     
     // ★★★ セッションストレージに保存 ★★★
     sessionStorage.setItem('quizProgress', JSON.stringify({ level: currentLevel, index: currentQuestionIndex, score: score }));
+
+    // ★★★ ここから追記 ★★★
+    // ボディにテーマクラスを設定
+    document.body.className = `theme-${level}`;
+    // ★★★ ここまで追記 ★★★
 
     startContainer.style.display = 'none';
     resultContainer.style.display = 'none';
@@ -259,11 +269,22 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQuestionIndex = progress.index;
         score = progress.score;
         
+         // ★★★ ここから追記 ★★★
+        // 保存されたレベルのテーマを適用
+        document.body.className = `theme-${progress.level}`;
+        // ★★★ ここまで追記 ★★★
+
         // スタート画面を隠し、クイズ画面を表示
         startContainer.style.display = 'none';
         quizContainer.style.display = 'block';
         
         loadQuiz();
+     
+         // ★★★ ここから追記 ★★★
+        // 保存データがない場合はTOPテーマを確実に適用
+        document.body.className = 'theme-top';
+        // ★★★ ここまで追記 ★★★
+   
     }
     // データがなければ、通常通りスタート画面が表示される
 });
