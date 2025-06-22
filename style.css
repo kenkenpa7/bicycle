@@ -244,3 +244,21 @@ blockquote p { margin: 0; font-style: italic; }
     .responsive-table .table-cell:not(:last-child) { border-bottom: 1px dashed var(--border-color); }
     .responsive-table .table-cell::before { content: attr(data-label); display: block; font-weight: 700; color: var(--primary-color); margin-bottom: 5px; font-size: 14px; }
 }
+
+/* --- 追記するスタイル --- */
+
+/* TOP画面の画像スタイル */
+.top-image-wrapper {
+    width: 100%;
+    max-width: 400px; /* 画像の最大幅を指定 */
+    margin: 0 auto 25px; /* 画像とタイトルの間に余白 */
+    border-radius: 12px; /* 画像の角を少し丸くする */
+    overflow: hidden; /* 角丸を画像に適用させるため */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.top-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block; /* 画像の下にできる余分な隙間を消す */
+}
