@@ -16,6 +16,12 @@ const progressBar = document.getElementById('progress-bar');
 const homeBtn = document.getElementById('home-btn');
 const topImageWrapper = document.querySelector('.top-image-wrapper'); 
 
+// ★★★ ここから追加 ★★★
+const audioPlayerContainer = document.getElementById('audio-player-container');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const referenceAudio = document.getElementById('reference-audio');
+// ★★★ ここまで追加 ★★★
+
 // --- 効果音の読み込み ---
 const correctSound = new Audio('correct.mp3');
 const incorrectSound = new Audio('incorrect.mp3');
@@ -221,4 +227,26 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         document.body.className = 'theme-top';
     }
+});
+
+// ★★★★★ 音声プレーヤー機能 ★★★★★
+playPauseBtn.addEventListener('click', () => {
+    // isPausedプロパティで、音声が一時停止中か（再生されていないか）を判定
+    if (referenceAudio.paused) {
+        referenceAudio.play(); // 再生する
+    } else {
+        referenceAudio.pause(); // 一時停止する
+    }
+});
+
+// 音声が再生されたときのイベント
+referenceAudio.addEventListener('play', () => {
+    playPauseBtn.classList.remove('play');
+    playPauseBtn.classList.add('pause');
+});
+
+// 音声が一時停止されたときのイベント
+referenceAudio.addEventListener('pause', () => {
+    playPauseBtn.classList.remove('pause');
+    playPauseBtn.classList.add('play');
 });

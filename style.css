@@ -262,3 +262,77 @@ blockquote p { margin: 0; font-style: italic; }
     height: auto;
     display: block; /* 画像の下にできる余分な隙間を消す */
 }
+
+/* --- 追記するスタイル --- */
+
+/* 音声プレーヤーのスタイル */
+.audio-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    z-index: 1001; /* フローティングボタンより手前に表示 */
+    transform: translateY(100%); /* 初期状態では画面下に隠す */
+    transition: transform 0.4s ease-in-out;
+}
+/* TOP画面テーマでのみ表示 */
+.theme-top .audio-player {
+    transform: translateY(0);
+}
+
+#play-pause-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+    flex-shrink: 0; /* ボタンが潰れないように */
+}
+#play-pause-btn:hover {
+    background-color: var(--primary-light);
+}
+
+/* 再生ボタン（三角形）のスタイル */
+#play-pause-btn.play::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 14px solid var(--primary-color);
+}
+
+/* 一時停止ボタン（二重線）のスタイル */
+#play-pause-btn.pause::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-left: 4px solid var(--primary-color);
+    border-right: 4px solid var(--primary-color);
+    box-sizing: border-box;
+}
+
+.audio-player span {
+    margin-left: 15px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 16px;
+}
