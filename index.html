@@ -3,69 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自転車技士・安全整備士 対策クイズ</title>
+    <title>自転車技士・安全整備士 対策アプリ</title>
     
-    <!-- Google Fonts の読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-top"> <!-- 初期テーマ -->
-    <div class="container">
-        <header class="app-header">
-            <!-- ★★★ ここからが追加部分 ★★★ -->
+<body class="theme-top">
+    <!-- トップ画面コンテナ -->
+    <div id="top-page-container" class="top-page-container">
+               <header class="top-header">
             <div class="top-image-wrapper">
                 <img src="top-image.jpg" alt="自転車のイメージ画像">
             </div>
-            <!-- ★★★ ここまで追加 ★★★ -->
-            <h1>自転車技士・安全整備士<br>対策クイズ</h1>
+            <!-- ↓ h1タグを削除し、divに変更 -->
+            <div class="header-text">
+                自転車技士・安全整備士 対策アプリ
+            </div>
         </header>
-        
-        <!-- スタート画面 (レベル選択) -->
-        <div id="start-container" class="start-container card">
-            <h2>レベル選択</h2>
-            <button id="beginner-btn" class="level-btn">初級編<br><small>基礎から学ぶ用語解説付き</small></button>
-            <button id="intermediate-btn" class="level-btn">中級編<br><small>試験対策向け実践問題</small></button>
-            <a href="reference.html" class="ref-btn">参考書でじっくり学ぶ</a>
-        </div>
 
-        <!-- クイズ画面 (最初は非表示) -->
-        <div id="quiz-container" class="card" style="display: none;">
+        <main class="grid-container">
+            <!-- 1段目 -->
+            <a href="#" id="beginner-btn" class="tile quiz-beginner"><i class="material-icons-outlined">school</i><span>初級クイズ</span></a>
+            <a href="#" id="intermediate-btn" class="tile quiz-intermediate"><i class="material-icons-outlined">psychology</i><span>中級クイズ</span></a>
+            <a href="reference.html" class="tile reference"><i class="material-icons-outlined">menu_book</i><span>総合参考書</span></a>
+            <!-- 2段目 -->
+            <a href="#" id="seibi1-btn" class="tile advanced-seibi"><div class="tile-badge">整</div><span>安全整備士 1</span></a>
+            <a href="#" id="seibi2-btn" class="tile advanced-seibi"><div class="tile-badge">整</div><span>安全整備士 2</span></a>
+            <a href="#" id="seibi3-btn" class="tile advanced-seibi"><div class="tile-badge">整</div><span>安全整備士 3</span></a>
+            <!-- 3段目 -->
+            <a href="#" id="gishi1-btn" class="tile advanced-gishi"><div class="tile-badge">技</div><span>自転車技士 1</span></a>
+            <a href="#" id="gishi2-btn" class="tile advanced-gishi"><div class="tile-badge">技</div><span>自転車技士 2</span></a>
+            <a href="#" id="gishi3-btn" class="tile advanced-gishi"><div class="tile-badge">技</div><span>自転車技士 3</span></a>
+            <!-- 4段目 -->
+            <a href="#" id="gishi4-btn" class="tile advanced-gishi"><div class="tile-badge">技</div><span>自転車技士 4</span></a>
+            <a href="#" id="audio-1" class="tile audio"><i class="material-icons-outlined">volume_up</i><span>音声教材 1</span></a>
+            <a href="#" id="audio-2" class="tile audio"><i class="material-icons-outlined">volume_up</i><span>音声教材 2</span></a>
+            <!-- 5段目 -->
+            <a href="#" id="audio-3" class="tile audio"><i class="material-icons-outlined">volume_up</i><span>音声教材 3</span></a>
+            <a href="#" id="audio-4" class="tile audio"><i class="material-icons-outlined">volume_up</i><span>音声教材 4</span></a>
+            <a href="#" id="audio-5" class="tile audio"><i class="material-icons-outlined">volume_up</i><span>音声教材 5</span></a>
+        </main>
+    </div>
+
+    <!-- クイズ画面コンテナ（初期状態では非表示） -->
+    <div id="quiz-page-container" class="page-container" style="display: none;">
+        <div class="card quiz-card">
             <div class="quiz-header">
                 <p id="question-number"></p>
-                <div id="progress-bar-container">
-                    <div id="progress-bar"></div>
-                </div>
+                <div id="progress-bar-container"><div id="progress-bar"></div></div>
             </div>
             <p id="question-text"></p>
-            <div id="options-container" class="options-container"></div>
-            <div id="feedback-area" class="feedback-area"></div>
+            <div id="options-container"></div>
+            <div id="feedback-area"></div>
             <button id="next-btn" class="next-btn">次の問題へ</button>
-        </div>
-
-        <!-- 結果画面 (最初は非表示) -->
-        <div id="result-container" class="card" style="display: none;">
-            <h2>クイズ終了！</h2>
-            <div id="score-circle">
-                <p id="score-text"></p>
-            </div>
-            <p id="result-message"></p>
-            <button id="restart-btn">レベル選択に戻る</button>
+            <button id="back-to-top-btn" class="back-to-top-btn">トップに戻る</button>
         </div>
     </div>
     
-    <a href="index.html" id="home-btn" class="floating-btn home">TOPへ</a>
-
-     <!-- ★★★ ここからが追加部分 ★★★ -->
-    <div id="audio-player-container" class="audio-player">
-        <button id="play-pause-btn" class="play"></button>
-        <span>音声で勉強</span>
-        <audio id="reference-audio" src="reference-audio.mp3" preload="metadata"></audio>
+    <!-- 結果画面コンテナ（初期状態では非表示） -->
+    <div id="result-page-container" class="page-container" style="display: none;">
+        <div class="card result-card">
+            <h2>クイズ終了！</h2>
+            <div id="score-circle"><p id="score-text"></p></div>
+            <p id="result-message"></p>
+            <button id="restart-btn">トップ画面に戻る</button>
+        </div>
     </div>
-    <!-- ★★★ ここまで追加 ★★★ -->
-
+    
+    <!-- 音声プレーヤーコンテナ（初期状態では非表示） -->
+    <div id="audio-player-container" class="audio-player-container">
+        <div class="audio-info">
+            <i class="material-icons-outlined">volume_up</i>
+            <span id="audio-title">音声教材タイトル</span>
+        </div>
+        <div class="audio-controls">
+            <button id="play-pause-btn" class="play"></button>
+            <input type="range" id="audio-seeker" value="0">
+            <span id="audio-time">0:00 / 0:00</span>
+        </div>
+        <button id="close-player-btn" class="close-player-btn">×</button>
+        <audio id="main-audio"></audio>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
